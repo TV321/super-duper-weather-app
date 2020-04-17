@@ -13,3 +13,8 @@
 .show{
     height: auto;
 }
+
+.forecast > tbody > tr > td > img {
+    height: 50px
+}
+

@@ -4,6 +4,7 @@ const icon = document.querySelector('.icon img')
 const info = document.querySelector('.main-info')
 const table = document.querySelector('tbody')
 const alert = document.querySelector('.alert')
+const forecast = document.querySelector('.forecast')
 
 const mainInfoUpdate = (data) => {
     const html = `
@@ -44,6 +45,46 @@ const detailsUpdate = (data) => {
 const updateUI = async (data) => {
     mainInfoUpdate(data)
     detailsUpdate(data)
+    return data
+}
+
+const filterForecast = (data) => {
+    const fullDate = new Date()
+    const date = fullDate.toLocaleDateString()
+
+    const filteredList = data.list.filter(item =>{
+        const time = item.dt * 1000
+        const foreFullDate = new Date(time)
+        const foreDate = foreFullDate.toLocaleDateString()
+
+        return foreDate !== date && item.dt_txt.includes('12:00:00')
+    })
+    console.log(filteredList)
+    return filteredList
+}
+
+const forecastUI = (data) => {
+    let rows = ``
+    data.forEach(item => {
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        const time = item.dt * 1000
+        const date = new Date(time)
+        const dayIndex = date.getDay()
+        const day = days[dayIndex]
+        const row = `
+        <tr>
+            <td>${ day }</td>
+            <td><img src="http://openweathermap.org/img/wn/${ item.weather[0].icon }@2x.png"></td>
+            <td>${ item.main.temp } &#8451</td>
+        </tr>
+        `
+        rows += row
+    })
+    forecast.innerHTML = `
+        <tbody>
+            ${ rows }
+        </tbody>
+    `
 }
 
 button.addEventListener('click', () => {
@@ -55,8 +96,12 @@ button.addEventListener('click', () => {
             <p>Latitude: ${ lat }</p>
             <p>Longitude: ${ long }</p>            
         `
-        getData(lat, long)
+        getCity(lat, long)
             .then(data => updateUI(data))
+            .then(data => getForecast(data.id))
+            .then(data => filterForecast(data))
+            .then(data => forecastUI(data))
+
     })
 })
 
