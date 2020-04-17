@@ -2,20 +2,8 @@ const button = document.querySelector('button')
 const userLocation = document.querySelector('.location')
 const icon = document.querySelector('.icon img')
 const info = document.querySelector('.main-info')
-const accord = document.querySelector('.accordion')
 const table = document.querySelector('tbody')
 const alert = document.querySelector('.alert')
-
-const key = "71c4ce3c29929e4460d9506740399393"
-
-const getData = async (lat, long) => {
-    const base = `https://api.openweathermap.org/data/2.5/weather?`
-    const query = `units=metric&lat=${ lat }&lon=${ long }&appid=${ key }`
-
-    const data = await fetch(base + query)
-    const response = await data.json()
-    return response
-}
 
 const mainInfoUpdate = (data) => {
     const html = `
@@ -71,13 +59,4 @@ button.addEventListener('click', () => {
             .then(data => updateUI(data))
     })
 })
-
-accord.addEventListener('click', (e) => {
-    if(e.target.classList.contains('btn-link')){
-        const elementId = e.target.getAttribute('data-target')
-        const toggleElement = document.querySelector(elementId)
-        toggleElement.classList.toggle('show')
-    }
-})
-
 

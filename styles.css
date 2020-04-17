@@ -4,3 +4,12 @@
     border-radius: 50%;
 }
 
+.hide-element{
+    overflow: hidden;
+    transition: height .8s linear;
+    height: 0;
+}
+
+.show{
+    height: auto;
+}
