@@ -5,6 +5,7 @@ const info = document.querySelector('.main-info')
 const table = document.querySelector('tbody')
 const alert = document.querySelector('.alert')
 const forecast = document.querySelector('.forecast')
+const carousel = document.querySelector('.carousel-inner')
 
 const mainInfoUpdate = (data) => {
     const html = `
@@ -87,6 +88,24 @@ const forecastUI = (data) => {
     `
 }
 
+const citiesUI = (data) => {
+    let items = ``
+    data.shift()
+    console.log(data)
+    data.forEach(item => {
+        const carouselItem = `
+        <div class="carousel-item">
+            <h4>${ item.name }</h4>
+            <p>${ item.weather[0].description }</p>
+            <h3>${ item.main.temp } &#8451</h3>
+        </div>
+        `
+        items += carouselItem
+    })
+    carousel.innerHTML = items
+    slideOn(initialIndex)
+}
+
 button.addEventListener('click', () => {
     navigator.geolocation.getCurrentPosition(position => {
         let lat = position.coords.latitude.toFixed(2)
@@ -101,6 +120,9 @@ button.addEventListener('click', () => {
             .then(data => getForecast(data.id))
             .then(data => filterForecast(data))
             .then(data => forecastUI(data))
+
+        getCities(lat, long)
+            .then(data => citiesUI(data))
 
     })
 })

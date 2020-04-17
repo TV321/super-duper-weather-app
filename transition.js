@@ -15,3 +15,24 @@ accord.addEventListener('click', (e) => {
         toggleCollapse(toggleElement)
     }
 })
+
+
+
+let initialIndex = 1
+const onClick = (n) => {
+    slideOn(initialIndex += n)
+}
+
+const slideOn = (n) => {
+    const slides = document.querySelectorAll('.carousel-item')
+
+    if(n > slides.length) {initialIndex = 1}
+    if(n < 1) {initialIndex = slides.length}
+
+    slides.forEach(item => {
+        item.classList.remove('active')
+    })
+    slides[initialIndex -1].classList.add('active')
+}
+
+slideOn(initialIndex)

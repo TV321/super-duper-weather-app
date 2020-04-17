@@ -17,3 +17,13 @@ const getForecast = async (id) => {
     const response = await data.json()
     return response
 }
+
+const getCities = async (lat, long) => {
+    const base = `https://api.openweathermap.org/data/2.5/find?`
+    const query = `lat=${ lat }&lon=${ long }&cnt=10&appid=${ key }&units=metric`
+
+    const data = await fetch(base + query)
+    const response = await data.json()
+    console.log(response.list)
+    return response.list
+}
