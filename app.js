@@ -1,5 +1,3 @@
-const button = document.querySelector('button')
-const userLocation = document.querySelector('.location')
 const icon = document.querySelector('.icon img')
 const info = document.querySelector('.main-info')
 const table = document.querySelector('tbody')
@@ -105,15 +103,11 @@ const citiesUI = async (data) => {
     slideOn(initialIndex)
 }
 
-button.addEventListener('click', () => {
+document.addEventListener('DOMContentLoaded', () =>{
     navigator.geolocation.getCurrentPosition(position => {
         let lat = position.coords.latitude.toFixed(2)
         let long = position.coords.longitude.toFixed(2) 
 
-        userLocation.innerHTML = `
-            <p>Latitude: ${ lat }</p>
-            <p>Longitude: ${ long }</p>            
-        `
         getCity(lat, long)
             .then(data => updateUI(data))
             .then(data => getForecast(data.id))
