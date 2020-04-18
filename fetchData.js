@@ -24,6 +24,15 @@ const getCities = async (lat, long) => {
 
     const data = await fetch(base + query)
     const response = await data.json()
-    console.log(response.list)
     return response.list
+}
+
+const getCityByName = async (name) => {
+    const base = `https://api.openweathermap.org/data/2.5/weather?`
+    const query = `q=${ name }&appid=${ key }&units=metric`
+
+    const data = await fetch(base + query)
+    const response = await data.json()
+    console.log(response.coord)
+    return response.coord
 }

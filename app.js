@@ -60,7 +60,6 @@ const filterForecast = (data) => {
 
         return foreDate !== date && item.dt_txt.includes('12:00:00')
     })
-    console.log(filteredList)
     return filteredList
 }
 
@@ -88,16 +87,16 @@ const forecastUI = (data) => {
     `
 }
 
-const citiesUI = (data) => {
+const citiesUI = async (data) => {
     let items = ``
     data.shift()
     console.log(data)
     data.forEach(item => {
         const carouselItem = `
         <div class="carousel-item">
-            <h4>${ item.name }</h4>
+            <h4 class="carousel-city">${ item.name }</h4>
             <p>${ item.weather[0].description }</p>
-            <h3>${ item.main.temp } &#8451</h3>
+            <h5>${ item.main.temp } &#8451</h5>
         </div>
         `
         items += carouselItem
@@ -125,5 +124,28 @@ button.addEventListener('click', () => {
             .then(data => citiesUI(data))
 
     })
+})
+
+carousel.addEventListener('click', (e) => {
+    if(e.target.tagName === 'H4') {
+        const cityName = e.target.innerText.toLowerCase()
+
+        getCityByName(cityName)
+            .then(({lon, lat}) => getCity(lat, lon))
+            .then(data => updateUI(data))
+            .then(data => getForecast(data.id))
+            .then(data => filterForecast(data))
+            .then(data => forecastUI(data))
+
+        getCityByName(cityName)
+            .then(({lon, lat}) => getCities(lat, lon))
+            .then(data => citiesUI(data))
+            .then(() => {
+                document.body.scrollTop = 0
+                document.documentElement.scrollTop = 0
+            })
+
+
+    }
 })
 
