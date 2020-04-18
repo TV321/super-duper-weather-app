@@ -4,6 +4,7 @@ const table = document.querySelector('tbody')
 const alert = document.querySelector('.alert')
 const forecast = document.querySelector('.forecast')
 const carousel = document.querySelector('.carousel-inner')
+const form = document.querySelector('form')
 
 const mainInfoUpdate = (data) => {
     const html = `
@@ -120,26 +121,36 @@ document.addEventListener('DOMContentLoaded', () =>{
     })
 })
 
+const onUserInput = (cityName) => {
+    getCityByName(cityName)
+        .then(({lon, lat}) => getCity(lat, lon))
+        .then(data => updateUI(data))
+        .then(data => getForecast(data.id))
+        .then(data => filterForecast(data))
+        .then(data => forecastUI(data))
+
+    getCityByName(cityName)
+        .then(({lon, lat}) => getCities(lat, lon))
+        .then(data => citiesUI(data))
+        .then(() => {
+            document.body.scrollTop = 0
+            document.documentElement.scrollTop = 0
+        })
+}
+
 carousel.addEventListener('click', (e) => {
     if(e.target.tagName === 'H4') {
         const cityName = e.target.innerText.toLowerCase()
-
-        getCityByName(cityName)
-            .then(({lon, lat}) => getCity(lat, lon))
-            .then(data => updateUI(data))
-            .then(data => getForecast(data.id))
-            .then(data => filterForecast(data))
-            .then(data => forecastUI(data))
-
-        getCityByName(cityName)
-            .then(({lon, lat}) => getCities(lat, lon))
-            .then(data => citiesUI(data))
-            .then(() => {
-                document.body.scrollTop = 0
-                document.documentElement.scrollTop = 0
-            })
-
-
+        
+        onUserInput(cityName)
     }
+})
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const cityName = form.city.value.trim()
+    form.reset()
+
+    onUserInput(cityName)
 })
 
