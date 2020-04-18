@@ -33,6 +33,5 @@ const getCityByName = async (name) => {
 
     const data = await fetch(base + query)
     const response = await data.json()
-    console.log(response.coord)
     return response.coord
 }

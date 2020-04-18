@@ -89,7 +89,6 @@ const forecastUI = (data) => {
 const citiesUI = async (data) => {
     let items = ``
     data.shift()
-    console.log(data)
     data.forEach(item => {
         const carouselItem = `
         <div class="carousel-item fade-element">
