@@ -28,4 +28,18 @@ html {
 
 .carousel-city{
     cursor: pointer;
+    transition: color .2s linear
+}
+.carousel-city:hover{
+    color: #6c757d;
+}
+
+.fade-element{
+    animation-name: fade-element;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade-element{
+    from {opacity: .2}
+    to {opacity: 1}
 }

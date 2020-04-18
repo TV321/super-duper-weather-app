@@ -92,7 +92,7 @@ const citiesUI = async (data) => {
     console.log(data)
     data.forEach(item => {
         const carouselItem = `
-        <div class="carousel-item">
+        <div class="carousel-item fade-element">
             <h4 class="carousel-city">${ item.name }</h4>
             <p>${ item.weather[0].description }</p>
             <h5>${ item.main.temp } &#8451</h5>
